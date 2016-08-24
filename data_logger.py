@@ -55,9 +55,13 @@ def conf_data_table(device_name):
 
 #karttan gelen veriyi calışma sayfası içine saat bilgisi ile birlikte yazma
 def log_data(ws_title,data_number,data):
+    now = datetime.now()
+    time_l = '%s:%s:%s' % (now.hour, now.minute, now.second)
+    day_l = '%s/%s/%s' % (now.day, now.month, now.year)
+    date="%s %s" % (day_l, time_l)
     sh = gc.open("sheet1")      #kayıt yapılacak dosyayı aç
     worksheet = sh.worksheet(ws_title)
-    worksheet.update_cell(data_number+1,1,time)
+    worksheet.update_cell(data_number+1,1,date)
     i = 0
     #!!range üzerinde loglamayı dene
     for value in data:
