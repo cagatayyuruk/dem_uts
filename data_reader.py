@@ -9,39 +9,36 @@ written by: Çağatay YÜRÜK Demirdöküm 2016 summer intern
 # -*- coding: utf-8 -*-
 
 import serial  #import Pyserial module
+import io
+import time
 
-#seri haberleşme tanımlamaları
-ser = serial.Serial('/dev/ttyUSB0') # open the COM Port
-ser.baudrate = 19200          # set Baud rate
-ser.bytesize = 8             # Number of data bits = 8
-ser.timeout = 1
-ser.parity   = 'N'           # No parity
-ser.stopbits = 1             # Number of Stop bits = 1
+ser = serial.Serial("/dev/ttyUSB0", baudrate=19200,
+                    bytesize=8, parity='N', stopbits=1
+                    , rtscts=1)
 
-#seri haberleşmeden gelen veriyi okuyan fonksiyon
-def readline(a_serial, eol=b'\r'):
-    leneol = len(eol) 
-    line = bytearray()
-    while True:
-        c = a_serial.read(1)
-        if c:
-            line += c
-            if line[-leneol:] == eol:
-                break
-        else:
-            break
-    return bytes(line)  #line bytearrayden ','le ayrılmış veri paketine dönüştürülüyor
 
+sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser, 1), encoding='ascii')
+def getserialdata():
+    ser.flushInput()
+    print sio.readline()
+    hard_data = sio.readline()
+    data_list = hard_data.split(',')
+    return data_list
+    
+    
+
+
+
+"""
 #data uygunluğunu kontrol et, ayır ve gönder
 def getserialdata():
-    hard_data = readline(ser)
+    hard_data = readline()
     data_list = hard_data.split(',')
     while data_list[0] != ('E'):
-        hard_data = readline(ser)
+        hard_data = readline()
         data_list = hard_data.split(',')
+    ser.flush()
     return data_list
 
-
-
-
+"""
 

@@ -2,6 +2,7 @@
 
 #client e-mail: demirdokumuts@appspot.gserviceaccount.com
 import gspread
+import time
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
@@ -30,14 +31,14 @@ table_headers = [" ","E", "Working\nMode", "Heat Demand\nMode","Error Flags","DH
 
 #cihaz adı ve saate göre yeni çalışma sayfası oluşturup tablo başlıklarını atma
 #açılan sayfanın adını döner
-def conf_data_table(device_name):
+def conf_data_table(device_name): #device_name: oluşturulacak yeni sayfa için cihaz adı
     header1 = "%s" % (device_name)   
     table_headers[0]=header1          #Takibi yapılan cihazın Adı nı başa ata    
 
     #Kayıt yapılacak çalışma sayfasını oluştur
     ws_title = "%s %s %s" % (device_name,day, time)    #açılacak yeni sayfanın adı 
     sh = gc.open("sheet1")      #kayıt yapılacak dosyayı aç
-    worksheet = sh.add_worksheet(title=ws_title, rows="20", cols="38")      #cihaz adı ve çalışma başlangıç saati isimli yeni sayfa aç
+    worksheet = sh.add_worksheet(title=ws_title, rows="1", cols="38")      #cihaz adı ve çalışma başlangıç saati isimli yeni sayfa aç
 
     #başlık hücrelerine başlık listesindeki verileri at
     #!!range içini düşünreke hücrelere veri yazmayı düşün
@@ -54,21 +55,32 @@ def conf_data_table(device_name):
 
 
 #karttan gelen veriyi calışma sayfası içine saat bilgisi ile birlikte yazma
-def log_data(ws_title,data_number,data):
-    now = datetime.now()
-    time_l = '%s:%s:%s' % (now.hour, now.minute, now.second)
-    day_l = '%s/%s/%s' % (now.day, now.month, now.year)
-    date="%s %s" % (day_l, time_l)
+def log_data(ws_title,data_number,data_list):        #ws_title: hangi sayfaya verinin giriliceğini
+                                                #data_number: girilen datanın numarası satırları belirlemek için kullanılıyor
+                                                #data: yazılacak veri
+    now = datetime.now()        #şimdiki zamanı al
+    time_l = '%s:%s:%s' % (now.hour, now.minute, now.second)        #verinin yazıldığı saat
+    day_l = '%s/%s/%s' % (now.day, now.month, now.year)     #verinin yazıldığı gün 
+    date="%s %s" % (day_l, time_l)      # veri yazılma saat ve gün
     sh = gc.open("sheet1")      #kayıt yapılacak dosyayı aç
-    worksheet = sh.worksheet(ws_title)
-    worksheet.update_cell(data_number+1,1,date)
-    i = 0
-    #!!range üzerinde loglamayı dene
-    for value in data:
-        worksheet.update_cell(data_number+1,i+2,data[i])
-        i += 1
+    worksheet = sh.worksheet(ws_title)  #kayıt yapılacak worksheet
+    send_data = []
+    send_data.append(date)
+    i=1
+    for data in data_list:
+        send_data.append(data)
+    worksheet.append_row(send_data)
 
 
+"""    worksheet.update_cell(data_number+1,1,date)     #satırın ilk hücresine saat ve günü at
+    range_build = "B" + str(data_number+1) + ":AK" + str(data_number+1)     #verilerin atılacağı hücre aralığını belirle
+    cell_list = worksheet.range(range_build)        #worksheetde aralıktaki hücreleri seç
+    i=0
+    for cell in cell_list:      #seçilen hücre listesine data listesini eşitle
+        cell.value = data[i]
+        i+=1
+    #worksheet.update_cells(cell_list)       #datayı güncelle"""
+    
 
 
 
