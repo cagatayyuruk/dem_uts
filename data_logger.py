@@ -55,8 +55,7 @@ def conf_data_table(device_name): #device_name: oluşturulacak yeni sayfa için 
 
 
 #karttan gelen veriyi calışma sayfası içine saat bilgisi ile birlikte yazma
-def log_data(ws_title,data_number,data_list):        #ws_title: hangi sayfaya verinin giriliceğini
-                                                #data_number: girilen datanın numarası satırları belirlemek için kullanılıyor
+def log_data(ws_title,data_list):        #ws_title: hangi sayfaya verinin giriliceğini                                                
                                                 #data: yazılacak veri
     now = datetime.now()        #şimdiki zamanı al
     time_l = '%s:%s:%s' % (now.hour, now.minute, now.second)        #verinin yazıldığı saat
@@ -70,16 +69,6 @@ def log_data(ws_title,data_number,data_list):        #ws_title: hangi sayfaya ve
     for data in data_list:
         send_data.append(data)
     worksheet.append_row(send_data)
-
-
-"""    worksheet.update_cell(data_number+1,1,date)     #satırın ilk hücresine saat ve günü at
-    range_build = "B" + str(data_number+1) + ":AK" + str(data_number+1)     #verilerin atılacağı hücre aralığını belirle
-    cell_list = worksheet.range(range_build)        #worksheetde aralıktaki hücreleri seç
-    i=0
-    for cell in cell_list:      #seçilen hücre listesine data listesini eşitle
-        cell.value = data[i]
-        i+=1
-    #worksheet.update_cells(cell_list)       #datayı güncelle"""
     
 
 

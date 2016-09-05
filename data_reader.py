@@ -24,21 +24,3 @@ def getserialdata():
     hard_data = sio.readline()
     data_list = hard_data.split(',')
     return data_list
-    
-    
-
-
-
-"""
-#data uygunluğunu kontrol et, ayır ve gönder
-def getserialdata():
-    hard_data = readline()
-    data_list = hard_data.split(',')
-    while data_list[0] != ('E'):
-        hard_data = readline()
-        data_list = hard_data.split(',')
-    ser.flush()
-    return data_list
-
-"""
-
