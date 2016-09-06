@@ -3,7 +3,6 @@
 This file make serial connection from product to 'Demirdöküm İnternet Tabanlı
     Ürün Takip Sistemi' 
 pyserial module has used
-
 written by: Çağatay YÜRÜK Demirdöküm 2016 summer intern
 """
 # -*- coding: utf-8 -*-

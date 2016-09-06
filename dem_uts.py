@@ -12,11 +12,18 @@ def start_test(device_name):
     ws_title=data_logger.conf_data_table(device_name)
     print (ws_title)
     while True:
-        data= data_reader.getserialdata()
-        print (data)
-        data_logger.log_data(ws_title,data)
-        print ("bitti")
-        time.sleep(5)
+        data= data_reader.getserialdata()       #Karttan datayı oku
+        try:
+            data_logger.log_data(ws_title,data)
+            print (data)
+            print ("bitti")
+            time.sleep(5)
+        except gspread.exceptions.HTTPError:
+            time.sleep(10)
+            data.append("Bağlantı Hatası: 500")
+            data_logger.log_data(ws_title,data)
+            print ("bitti")            
+            
 
 #Get settings from test_stat.txt file
 with open("test_stat.txt","r")as f:
