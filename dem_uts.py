@@ -6,10 +6,11 @@ import data_reader
 import data_logger
 import time
 import json
+import gspread
 
 #main test function
-def start_test(device_name):
-    ws_title=data_logger.conf_data_table(device_name)
+def start_test(device_name,sheet):
+    ws_title=data_logger.conf_data_table(device_name,sheet)
     print (ws_title)
     while True:
         data= data_reader.getserialdata()       #Karttan datayı oku
@@ -19,12 +20,11 @@ def start_test(device_name):
             print ("bitti")
             time.sleep(5)
         except gspread.exceptions.HTTPError:
+            print ("Bağlantı Hatası: 500")
             time.sleep(10)
-            data.append("Bağlantı Hatası: 500")
-            data_logger.log_data(ws_title,data)
             print ("bitti")            
             
-
+#start
 #Get settings from test_stat.txt file
 with open("test_stat.txt","r")as f:
     d=f.read()
@@ -32,7 +32,8 @@ test=json.loads(d)
 if test['test1']['status']== u'1':
     print ("Test başlıyor.")
     device_name = test['test1']['device_name']
-    start_test(device_name)
+    test_sheet = test['test1']['sheet']
+    start_test(device_name,test_sheet)
 else:
     print('Test pasif.')
 

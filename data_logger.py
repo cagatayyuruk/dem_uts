@@ -31,13 +31,13 @@ table_headers = [" ","E", "Working\nMode", "Heat Demand\nMode","Error Flags","DH
 
 #cihaz adı ve saate göre yeni çalışma sayfası oluşturup tablo başlıklarını atma
 #açılan sayfanın adını döner
-def conf_data_table(device_name): #device_name: oluşturulacak yeni sayfa için cihaz adı
+def conf_data_table(device_name,sheet): #device_name: oluşturulacak yeni sayfa için cihaz adı
     header1 = "%s" % (device_name)   
     table_headers[0]=header1          #Takibi yapılan cihazın Adı nı başa ata    
 
     #Kayıt yapılacak çalışma sayfasını oluştur
     ws_title = "%s %s %s" % (device_name,day, time)    #açılacak yeni sayfanın adı 
-    sh = gc.open("sheet1")      #kayıt yapılacak dosyayı aç
+    sh = gc.open(sheet)      #kayıt yapılacak dosyayı aç
     worksheet = sh.add_worksheet(title=ws_title, rows="1", cols="38")      #cihaz adı ve çalışma başlangıç saati isimli yeni sayfa aç
 
     #başlık hücrelerine başlık listesindeki verileri at

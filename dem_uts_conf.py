@@ -7,16 +7,19 @@ import json
 #New test configuration input function
 def start_new():
     test_name="test1"
-    device_name =raw_input('Test yapılan cihaz numarasını giriniz (örn: cihaz1) :')
-    status= raw_input('Testi aktif etmek için "1" pasif etmek için "0" giriniz :')
-    port=raw_input('Cihazın bağlandığını portu giriniz (portları görmek için \
-    terminalden "dmesg | grep tty" komutu kullanınız (örn: /dev/ttyUSB0)) :')
+    device_name =raw_input('Test yapılan cihaz numarasını giriniz. (örn: cihaz1) :\n')
+    status= raw_input('Testi aktif etmek için "1" pasif etmek için "0" giriniz. :\n')
+    port=raw_input('Cihazın bağlandığını portu giriniz. (portları görmek için \
+terminalden "dmesg | grep tty" komutu kullanınız. (örn: /dev/ttyUSB0)) :\n')
+    sheet = raw_input('Dataların yazılacağı dosya adını giriniz. (Dosyanın \
+"demirdokumuts@appspot.gserviceaccount.com" ile paylaşıldığına emin olunuz.)(örn: Sheet1):\n')
 
     test_status = {}
     test_status[test_name] = {
         'device_name' : device_name,
         'status' : status,
-        'port' : port
+        'port' : port,
+        'sheet' : sheet
         }
 
 
